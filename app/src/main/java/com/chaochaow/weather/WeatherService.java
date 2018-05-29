@@ -2,28 +2,26 @@ package com.chaochaow.weather;
 
 
 import io.reactivex.Observable;
-import retrofit2.Call;
-import retrofit2.Response;
-import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
  * @author chaochaowu
- * @Description :
- * @classes :
+ * @Description : retrofit 定义网络请求
+ * @classes : WeatherService
  * @time Create at 5/28/2018 2:41 PM
  */
 
 
 public interface WeatherService {
 
-    @GET("s6/weather/now?key=2c8121290a004d63a50cd73b5b9f7524&location=beijing")
-    Observable<Response<WeatherEntity>> getWeather();
-
-    @GET("s6/weather/now?key=2c8121290a004d63a50cd73b5b9f7524&location=beijing")
-    Call<WeatherEntity> getWeather2();
+    /**
+     * 获取指定城市的天气信息
+     * @param key 开发者key
+     * @param location 城市名称
+     * @return 返回一个Observable类型 用于Rxjava的处理
+     */
+    @GET("s6/weather/now")
+    Observable<WeatherEntity> getWeather(@Query("key") String key, @Query("location") String location);
 
 }

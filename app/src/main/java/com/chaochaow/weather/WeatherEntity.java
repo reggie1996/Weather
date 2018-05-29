@@ -4,8 +4,8 @@ import java.util.List;
 
 /**
  * @author chaochaowu
- * @Description :
- * @classes :
+ * @Description : 天气信息的实体类
+ * @classes : WeatherEntity
  * @time Create at 5/28/2018 2:55 PM
  */
 
@@ -68,6 +68,20 @@ public class WeatherEntity {
         }
 
         public static class BasicBean {
+            @Override
+            public String toString() {
+                return "BasicBean{" +
+                        "cid='" + cid + '\'' +
+                        ", location='" + location + '\'' +
+                        ", parent_city='" + parent_city + '\'' +
+                        ", admin_area='" + admin_area + '\'' +
+                        ", cnty='" + cnty + '\'' +
+                        ", lat='" + lat + '\'' +
+                        ", lon='" + lon + '\'' +
+                        ", tz='" + tz + '\'' +
+                        '}';
+            }
+
             /**
              * cid : CN101010100
              * location : 北京
@@ -154,6 +168,14 @@ public class WeatherEntity {
         }
 
         public static class UpdateBean {
+            @Override
+            public String toString() {
+                return "UpdateBean{" +
+                        "loc='" + loc + '\'' +
+                        ", utc='" + utc + '\'' +
+                        '}';
+            }
+
             /**
              * loc : 2018-05-28 14:52
              * utc : 2018-05-28 06:52
@@ -180,6 +202,25 @@ public class WeatherEntity {
         }
 
         public static class NowBean {
+            @Override
+            public String toString() {
+                return "NowBean{" +
+                        "cloud='" + cloud + '\'' +
+                        ", cond_code='" + cond_code + '\'' +
+                        ", cond_txt='" + cond_txt + '\'' +
+                        ", fl='" + fl + '\'' +
+                        ", hum='" + hum + '\'' +
+                        ", pcpn='" + pcpn + '\'' +
+                        ", pres='" + pres + '\'' +
+                        ", tmp='" + tmp + '\'' +
+                        ", vis='" + vis + '\'' +
+                        ", wind_deg='" + wind_deg + '\'' +
+                        ", wind_dir='" + wind_dir + '\'' +
+                        ", wind_sc='" + wind_sc + '\'' +
+                        ", wind_spd='" + wind_spd + '\'' +
+                        '}';
+            }
+
             /**
              * cloud : 0
              * cond_code : 100
@@ -314,5 +355,22 @@ public class WeatherEntity {
                 this.wind_spd = wind_spd;
             }
         }
+
+        @Override
+        public String toString() {
+            return "HeWeather6Bean{" +
+                    "basic=" + basic +
+                    ", update=" + update +
+                    ", status='" + status + '\'' +
+                    ", now=" + now +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "WeatherEntity{" +
+                "HeWeather6=" + HeWeather6 +
+                '}';
     }
 }

@@ -1,24 +1,18 @@
 package com.chaochaow.weather;
 
-import android.util.Log;
-
+import io.reactivex.Observable;
 import io.reactivex.Observer;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.Result;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author chaochaowu
- * @Description :
- * @class :
+ * @Description : MVP框架中的presenter用来处理数据请求
+ * @class : MainPresenter
  * @time Create at 5/28/2018 2:05 PM
  */
 
@@ -35,30 +29,30 @@ public class MainPresenter implements MainContract.Presenter{
     public void getData() {
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://free-api.heweather.com/")
+                .baseUrl("https://free-api.heweather.com")
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
         WeatherService weatherService = retrofit.create(WeatherService.class);
 
-        weatherService.getWeather()
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response<WeatherEntity>>() {
+        weatherService.getWeather("2c8121290a004d63a50cd73b5b9f7524","shaoxing")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<WeatherEntity>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(Response<WeatherEntity> weatherEntityResponse) {
-                        Log.e("111111",weatherEntityResponse.body().getHeWeather6().get(0).getBasic().getAdmin_area());
+                    public void onNext(WeatherEntity weatherEntity) {
+                        mView.setData(weatherEntity);
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("111111","error");
+                        mView.dataError(e);
                     }
 
                     @Override
@@ -66,19 +60,6 @@ public class MainPresenter implements MainContract.Presenter{
 
                     }
                 });
-
-        Call<WeatherEntity> weather2 = weatherService.getWeather2();
-        weather2.enqueue(new Callback<WeatherEntity>() {
-            @Override
-            public void onResponse(Call<WeatherEntity> call, Response<WeatherEntity> response) {
-                Log.e("222222",response.body().getHeWeather6().get(0).getBasic().getAdmin_area());
-            }
-
-            @Override
-            public void onFailure(Call<WeatherEntity> call, Throwable t) {
-                Log.e("222222","error");
-            }
-        });
 
     }
 }

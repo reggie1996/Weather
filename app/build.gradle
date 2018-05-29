@@ -39,5 +39,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     compile 'com.squareup.retrofit2:converter-gson:2.4.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
+    //UI框架
+    compile 'com.loopeer.library:cardstack:1.0.2'
 
 }

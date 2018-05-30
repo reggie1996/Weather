@@ -46,7 +46,7 @@ public class MainPresenter implements MainContract.Presenter{
 
         for (String city : cities) {
 
-            weatherService.getWeather("2c8121290a004d63a50cd73b5b9f7524", city)
+            weatherService.getWeather("2c812填上你自己的开发者keyb9f7524", city)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(new Observer<WeatherEntity>() {

@@ -1,5 +1,10 @@
 package com.chaochaow.weather;
 
+import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,12 +26,15 @@ public class MainPresenter implements MainContract.Presenter{
 
     MainContract.View mView;
 
+
     public MainPresenter(MainContract.View mView) {
         this.mView = mView;
     }
 
     @Override
-    public void getData() {
+    public void getData(String[] cities) {
+
+        final List<WeatherEntity> weatherEntities = new ArrayList<>();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://free-api.heweather.com")
@@ -36,30 +44,35 @@ public class MainPresenter implements MainContract.Presenter{
 
         WeatherService weatherService = retrofit.create(WeatherService.class);
 
-        weatherService.getWeather("2c8121290a004d63a50cd73b5b9f7524","shaoxing")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<WeatherEntity>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
+        for (String city : cities) {
 
-                    }
+            weatherService.getWeather("2c8121290a004d63a50cd73b5b9f7524", city)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<WeatherEntity>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
 
-                    @Override
-                    public void onNext(WeatherEntity weatherEntity) {
-                        mView.setData(weatherEntity);
-                    }
+                        }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mView.dataError(e);
-                    }
+                        @Override
+                        public void onNext(WeatherEntity weatherEntity) {
+                            weatherEntities.add(weatherEntity);
+                        }
 
-                    @Override
-                    public void onComplete() {
+                        @Override
+                        public void onError(Throwable e) {
+                            mView.dataError(e);
+                        }
 
-                    }
-                });
+                        @Override
+                        public void onComplete() {
+                            mView.setData(weatherEntities);
+                        }
+                    });
+
+        }
+
 
     }
 }

@@ -31,5 +31,9 @@
     <color name="color_25">#607D8B</color>
     <color name="color_26">#000000</color>
 
+    <color name="white">#ffffff</color>
+
+    <color name="black_overlay">#66000000</color>
+
 
 </resources>
